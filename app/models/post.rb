@@ -10,15 +10,10 @@ class Post < ApplicationRecord
     username:   'Better_Reddit_API',
     password:   'orange10'
     )
+    post_array = []
 
-    session.subreddit('woahdude').new do |post|
-      p post
-      # post_array << {
-      #   id: post.id,
-      #   title: post.title,
-      #   url: post.url
-      # }
-    end
+    post_array << session.subreddit('woahdude').new
+
 
   end
 
