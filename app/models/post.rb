@@ -11,9 +11,15 @@ class Post < ApplicationRecord
     password:   'orange10'
     )
 
-    session.subreddit('all').comment_stream do |comment|
-      print "do something"
+    session.subreddit('woahdude').new do |post|
+      p post
+      # post_array << {
+      #   id: post.id,
+      #   title: post.title,
+      #   url: post.url
+      # }
     end
+
   end
 
 end
