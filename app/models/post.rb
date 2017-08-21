@@ -10,14 +10,15 @@ class Post < ApplicationRecord
     username:   ENV["reddit_username"],
     password:   ENV["reddit_password"]
     )
-    new_posts = session.subreddit('woahdude').new.to_ary
-
+    new_posts = session.subreddit('woahdude').hot.to_ary
     post_objects = new_posts.map do |post|
+      # if post.is_video == false
       post_object = {
         id: post.id,
         url: post.url,
         title: post.title
       }
+      # end
     end
   end
 
