@@ -13,7 +13,7 @@ class Post < ApplicationRecord
     password:   ENV["reddit_password"]
     )
     @new_posts = session.subreddit(sub_reddit)
-    @first_page = @new_posts.send(sort_by, limit:15)
+    @first_page = @new_posts.send(sort_by, limit:30)
     post_objects = @first_page.map do |post|
       post_object = {
         id: post.id,
@@ -39,8 +39,16 @@ class Post < ApplicationRecord
 
 
 
-    @second_page = @new_posts.send(sort_by, limit: 2, after: @first_page)
-    @first_page = @new_posts.send(sort_by, limit: 2, before: @second_page)
+    @second_page = @new_posts.send(sort_by, limit: 15, after: @first_page)
+    @first_page = @new_posts.send(sort_by, limit: 15, before: @second_page)
+
+    post_objects = @second_page.map do |post|
+      post_object = {
+        id: post.id,
+        url: post.url,
+        title: post.title
+      }
+    end
 #
 #
 #     first_page = spiders.top(time: :all)

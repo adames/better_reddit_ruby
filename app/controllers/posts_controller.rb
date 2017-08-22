@@ -5,4 +5,12 @@ class PostsController < ApplicationController
     render json: posts
   end
 
+  def next_page
+    filters = params
+    next_page = Post.more_posts(filters)
+
+    byebug
+    render json: next_page
+  end
+
 end
