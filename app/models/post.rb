@@ -10,7 +10,7 @@ class Post < ApplicationRecord
     username:   ENV["reddit_username"],
     password:   ENV["reddit_password"]
     )
-    new_posts = session.subreddit(sub_reddit).hot.to_ary
+    new_posts = session.subreddit(sub_reddit).new
     post_objects = new_posts.map do |post|
       post_object = {
         id: post.id,
