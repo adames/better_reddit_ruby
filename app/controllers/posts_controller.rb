@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   def index
-    sub_reddit = params[:sub_reddit]
-    posts = Post.call_api(sub_reddit)
+    filters = params
+    posts = Post.call_api(filters)
     render json: posts
   end
 
