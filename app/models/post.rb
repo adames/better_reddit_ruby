@@ -14,7 +14,6 @@ class Post < ApplicationRecord
     )
     @new_posts = session.subreddit(sub_reddit)
     @first_page = @new_posts.send(sort_by, limit:15)
-    byebug
     post_objects = @first_page.map do |post|
       post_object = {
         id: post.id,
@@ -36,14 +35,12 @@ class Post < ApplicationRecord
     password:   ENV["reddit_password"]
     )
     @new_posts = session.subreddit(sub_reddit)
-    
+
 
 
 
     @second_page = @new_posts.send(sort_by, limit: 2, after: @first_page)
-    byebug
     @first_page = @new_posts.send(sort_by, limit: 2, before: @second_page)
-    byebug
 #
 #
 #     first_page = spiders.top(time: :all)
