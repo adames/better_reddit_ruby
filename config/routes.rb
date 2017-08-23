@@ -4,5 +4,6 @@ Rails.application.routes.draw do
 
 
   get '/posts/next_page', to: 'posts#next_page'
+  get '/posts/get_comment', to: 'posts#get_comment'
 
 end

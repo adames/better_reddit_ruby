@@ -10,9 +10,16 @@ class PostsController < ApplicationController
     filters = params
     api = RedditAdapter.new
     next_page = api.more_posts(filters)
-
     render json: next_page
   end
+
+  def get_comment
+    link = params[:link]
+    api = RedditAdapter.new
+    new_comment = api.get_comment(link)
+    render json: {string:new_comment}
+  end
+
 
   def create
     post = params[:post]
