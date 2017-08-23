@@ -96,7 +96,7 @@ class RedditAdapter
       url = "https://api.reddit.com#{link}"
       response = HTTParty.get(url)
       json_response = response.parsed_response
-      return json_response[1]["data"]["children"][0]["data"]["body"] ? json_response[1]["data"]["children"][0]["data"]["body"] : "no comment"
+      return json_response[1]["data"]["children"][0]["data"]["body"]
 
     end
 
