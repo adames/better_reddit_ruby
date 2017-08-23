@@ -1,12 +1,13 @@
-require 'redd'
-
+require 'httparty'
 class RedditAdapter
   attr_accessor :first_page, :second_page, :new_posts
 
+  @@after = ""
 
   def call_api(filters)
     sub_reddit = filters[:sub_reddit]
     sort_by = filters[:sort_by]
+
     session = Redd.it(
     user_agent: 'BetterReddit',
     client_id:  ENV["reddit_client_id"],
@@ -14,17 +15,29 @@ class RedditAdapter
     username:   ENV["reddit_username"],
     password:   ENV["reddit_password"]
     )
-    @new_posts = session.subreddit(sub_reddit)
-    @first_page = new_posts.send(sort_by, limit:2, sort_order: "top")
-    post_objects = @first_page.map do |post|
-      post_object = {
-        post_id: post.id,
-        url: post.url,
-        title: post.title,
-        thumbnail: post.thumbnail,
-        # top_comment: post.comments[0] ? post.comments[0].body : nil
+
+    url = "https://api.reddit.com/r/#{sub_reddit}/?sort=#{sort_by}"
+    response = HTTParty.get(url)
+    json_response = response.parsed_response
+    after = json_response["data"]["after"]
+    @@after = after
+    posts = json_response["data"]["children"] #25 posts
+
+    post_objects = posts.map do |post|
+      {
+        post_id: post["data"]["id"],
+        url: post["data"]["url"],
+        title: post["data"]["title"],
+        thumbnail: post["data"]["thumbnail"],
+        post_hint: post["data"]["post_hint"],
+        ups: post["data"]["ups"],
+        permalink: post["data"]["permalink"],
       }
     end
+
+    return post_objects
+
+
   end
 
     def more_posts(filters)
@@ -38,24 +51,28 @@ class RedditAdapter
       username:   ENV["reddit_username"],
       password:   ENV["reddit_password"]
       )
-      @new_posts = session.subreddit(sub_reddit)
 
-      @first_page = new_posts.send(sort_by, limit:3, sort_order: "top")
+      url = "https://api.reddit.com/r/#{sub_reddit}/?sort=#{sort_by}&after=#{@@after}"
+      response = HTTParty.get(url)
+      json_response = response.parsed_response
+      after = json_response["data"]["after"]
+      @@after = ""
+      @@after = after
+      posts = json_response["data"]["children"] #25 posts
 
-
-      @next_page = new_posts.send(sort_by, limit: 3, after: @first_page.after)
-      @third_page = new_posts.send(sort_by, limit: 3, after: @next_page.after)
-      @next_page = new_posts.send(sort_by, limit: 3, after: @third_page.after)
-
-
-      post_objects = @next_page.map do |post|
-        post_object = {
-          id: post.id,
-          url: post.url,
-          title: post.title,
-          thumbnail: post.thumbnail,
-          # top_comment: post.comments[0] ? post.comments[0].body : nil
+      post_objects = posts.map do |post|
+        {
+          post_id: post["data"]["id"],
+          url: post["data"]["url"],
+          title: post["data"]["title"],
+          thumbnail: post["data"]["thumbnail"],
+          post_hint: post["data"]["post_hint"],
+          ups: post["data"]["ups"],
+          permalink: post["data"]["permalink"],
         }
       end
+      return post_objects
+
     end
+
 end
