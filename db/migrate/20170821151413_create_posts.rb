@@ -6,6 +6,9 @@ class CreatePosts < ActiveRecord::Migration[5.1]
       t.string :title
       t.string :thumbnail
       t.string :top_comment
+      t.string :post_hint
+      t.integer :ups
+      t.string :permalink
 
 
       t.timestamps

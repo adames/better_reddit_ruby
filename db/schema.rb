@@ -18,6 +18,9 @@ ActiveRecord::Schema.define(version: 20170821151413) do
     t.string "title"
     t.string "thumbnail"
     t.string "top_comment"
+    t.string "post_hint"
+    t.integer "ups"
+    t.string "permalink"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
