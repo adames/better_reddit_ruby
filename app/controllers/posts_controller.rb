@@ -1,13 +1,15 @@
 class PostsController < ApplicationController
   def index
     filters = params
-    posts = Post.call_api(filters)
+    api = RedditAdapter.new
+    posts = api.call_api(filters)
     render json: posts
   end
 
   def next_page
     filters = params
-    next_page = Post.more_posts(filters)
+    api = RedditAdapter.new
+    next_page = api.more_posts(filters)
 
     render json: next_page
   end
