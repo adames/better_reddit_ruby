@@ -9,8 +9,13 @@ class PostsController < ApplicationController
     filters = params
     next_page = Post.more_posts(filters)
 
-    byebug
     render json: next_page
+  end
+
+  def create
+    post = params[:post]
+    saved_object = Post.find_or_create_by(post)
+    render json: saved_object
   end
 
 end

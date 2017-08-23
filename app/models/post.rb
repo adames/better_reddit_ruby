@@ -16,9 +16,11 @@ class Post < ApplicationRecord
     @first_page = @new_posts.send(sort_by, limit:30)
     post_objects = @first_page.map do |post|
       post_object = {
-        id: post.id,
+        post_id: post.id,
         url: post.url,
-        title: post.title
+        title: post.title,
+        thumbnail: post.thumbnail,
+        # top_comment: post.comments[0] ? post.comments.max{ |c| c.score}.body : nil
       }
     end
   end
