@@ -1,24 +1,8 @@
-# README
+BetterReddit is a group project made by @adames and @ATung01 while attending Flatiron School. The goal of the project was use the reddit api to browse pictures of different subreddits. Also allows you to save your favorite pictures on a sidebar.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[Demo](https://www.youtube.com/watch?v=iSmAn3nQgBY)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The project was built using React, Javascript, Ruby, Rails.
+Libraries include [Semantic UI React](https://react.semantic-ui.com/) and [React Stack Grid](https://tsuyoshiwada.github.io/react-stack-grid/).
+Pulls images from the [Reddit API](https://www.reddit.com/dev/api/) through our eponymous backend server [found here](https://github.com/adames/better_reddit_ruby).
+Backend server uses HTTParty the [Redd](https://github.com/avinashbot/redd) batteries-included API wrapper for reddit.
